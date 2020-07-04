@@ -1,0 +1,27 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start-dev": "nodemon --exec babel-node index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@babel/core": "^7.10.4",
+		"@babel/node": "^7.10.4",
+		"@babel/preset-env": "^7.10.4",
+		"bcryptjs": "^2.4.3",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"jsonwebtoken": "^8.5.1",
+		"morgan": "^1.10.0",
+		"pg": "^8.2.1",
+		"sequelize": "^6.3.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
+}
