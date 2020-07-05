@@ -4,3 +4,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.notifications {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  margin-right: 2rem;
+  margin-top: 1rem;
+}

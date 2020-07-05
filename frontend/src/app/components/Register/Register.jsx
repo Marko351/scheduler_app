@@ -11,11 +11,17 @@ import {
 } from 'react-bootstrap';
 
 import { store } from '../../context/UserContext';
+import { store as notificationStore } from '../../context/NotificationContext';
 
 const Register = ({ history }) => {
+	// USER STORE
 	const userState = useContext(store);
-	const { registerUser } = userState.userActions;
+	const { registerUser } = userState;
 	const { isAuthenticated } = userState.state;
+	// NOTIFICATION STORE
+	const notificationState = useContext(notificationStore);
+	const { turnOnNotifiaction } = notificationState;
+	// STATE
 	const [userData, setUserData] = useState({
 		username: '',
 		password: '',
@@ -31,7 +37,7 @@ const Register = ({ history }) => {
 	};
 
 	const onSubmit = () => {
-		registerUser(userData, history);
+		registerUser(userData, history, turnOnNotifiaction);
 	};
 	return (
 		<Container className='centered'>

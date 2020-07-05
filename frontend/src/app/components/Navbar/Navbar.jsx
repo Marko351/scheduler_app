@@ -7,11 +7,10 @@ import { store } from '../../context/UserContext';
 const NavbarComponent = ({ history }) => {
 	const userState = useContext(store);
 	const { isAuthenticated } = userState.state;
-	const { logoutUser } = userState.userActions;
+	const { logoutUser } = userState;
 
 	const onLogoutClick = () => {
 		logoutUser();
-		console.log('here');
 		history.push('/login');
 	};
 

@@ -17,7 +17,7 @@ class AuthenticationController {
 
 			// Check if user exists
 			if (!userResponse) {
-				return errorResponse(res, 400, 'There is no user with that email');
+				return errorResponse(res, 400, 'There is no user with that username');
 			}
 
 			// Compare password

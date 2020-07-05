@@ -10,52 +10,81 @@ const initialState = {
 	isAuthenticated: false,
 	user: {},
 };
-const store = createContext(initialState);
-const { Provider } = store;
+const userStore = createContext(initialState);
+const { Provider } = userStore;
 
 const UserProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(userReducer, initialState);
 
-	const userActions = {
-		setCurrentUser: (decoded) => {
-			dispatch({
-				type: SET_USER_DATA,
-				payload: { user: decoded, isAuthenticated: true },
-			});
-		},
-		logoutUser: () => {
-			localStorage.removeItem('scheduler_token');
-			setAuthToken(false);
-			dispatch({
-				type: SET_USER_DATA,
-				payload: { user: {}, isAuthenticated: false },
-			});
-		},
-		loginUser: async (setCurrentUser, data, history) => {
-			try {
-				const response = await axios.post('/authentication/login', data);
-				const { token } = response.data;
-				localStorage.setItem('scheduler_token', token);
-				setAuthToken(token);
-				const decoded = jwt_decode(token);
-				setCurrentUser(decoded);
-				history.push('/scheduler');
-				// dispatch(clearErrors());
-			} catch (err) {
-				console.log(err);
+	// Users actions
+	const setCurrentUser = (decoded) => {
+		dispatch({
+			type: SET_USER_DATA,
+			payload: { user: decoded, isAuthenticated: true },
+		});
+	};
+	const logoutUser = () => {
+		localStorage.removeItem('scheduler_token');
+		setAuthToken(false);
+		dispatch({
+			type: SET_USER_DATA,
+			payload: { user: {}, isAuthenticated: false },
+		});
+	};
+	const loginUser = async (setCurrentUser, data, history, notification) => {
+		try {
+			const response = await axios.post('/authentication/login', data);
+			const { token } = response.data;
+			localStorage.setItem('scheduler_token', token);
+			setAuthToken(token);
+			const decoded = jwt_decode(token);
+			setCurrentUser(decoded);
+			history.push('/scheduler');
+		} catch (err) {
+			console.log(this);
+			if (err.response.status === 400) {
+				notification({
+					notificationType: 1,
+					message: err.response.data.message,
+				});
+			} else {
+				notification({
+					notificationType: 1,
+					message: 'Server Error! Something went wrong',
+				});
 			}
-		},
-		registerUser: async (data, history) => {
-			try {
-				await axios.post('/users/register', data);
-				history.push('/login');
-			} catch (err) {
-				console.log(err);
+		}
+	};
+	const registerUser = async (data, history, notification) => {
+		try {
+			await axios.post('/users/register', data);
+			history.push('/login');
+			notification({
+				notificationType: 2,
+				message: 'User created successfuly, please login',
+			});
+		} catch (err) {
+			if (err.response.status === 400) {
+				notification({
+					notificationType: 1,
+					message: err.response.data.message,
+				});
+			} else {
+				notification({
+					notificationType: 1,
+					message: 'Server Error! Something went wrong',
+				});
 			}
-		},
+		}
 	};
 
-	return <Provider value={{ state, userActions }}>{children}</Provider>;
+	return (
+		<Provider
+			value={{ state, setCurrentUser, registerUser, logoutUser, loginUser }}
+		>
+			{children}
+		</Provider>
+	);
 };
 
-export { store, UserProvider };
+export { userStore as store, UserProvider };

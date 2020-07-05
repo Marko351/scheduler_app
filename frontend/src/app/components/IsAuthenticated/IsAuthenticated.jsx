@@ -7,7 +7,7 @@ import setAuthToken from '../../utils/setAuthToken';
 
 const IsAuthenticated = (props) => {
 	const userState = useContext(store);
-	const { setCurrentUser, logoutUser } = userState.userActions;
+	const { setCurrentUser, logoutUser } = userState;
 
 	useEffect(() => {
 		let decoded = null;
