@@ -6,9 +6,9 @@ class EventsController {
 	async getAllEvents(req, res, next) {
 		try {
 			const { Event } = req.models;
-			const { userId } = req.params;
+			const { userId } = req.userData;
 
-			const eventResponse = await Event.find({
+			const eventResponse = await Event.findAll({
 				where: { created_by: userId },
 			});
 
@@ -22,7 +22,9 @@ class EventsController {
 		try {
 			const { Event } = req.models;
 			const { eventId } = req.params;
-			const eventResponse = Event.findByPk(eventId);
+			const eventResponse = await Event.findOne({
+				where: { id: eventId },
+			});
 
 			res.status(200).json(eventResponse);
 		} catch (err) {
