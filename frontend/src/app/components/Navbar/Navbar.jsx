@@ -14,12 +14,11 @@ const NavbarComponent = ({ history }) => {
 		history.push('/login');
 	};
 
-	console.log(isAuthenticated);
 	return (
 		<Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
 			<Navbar.Brand>Scheduler App</Navbar.Brand>
-			<Navbar.Toggle aria-controls='responsive-navbar-nav' />
-			<Navbar.Collapse id='responsive-navbar-nav'>
+			<Navbar.Toggle />
+			<Navbar.Collapse>
 				<Nav className='ml-auto'>
 					{!isAuthenticated ? (
 						<Fragment>

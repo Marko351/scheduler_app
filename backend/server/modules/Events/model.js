@@ -1,10 +1,9 @@
 const EventModel = (sequelize, DataTypes) => {
 	const Event = sequelize.define('event', {
 		scheduled_at: {
-			type: DataTypes.DATEONLY,
-			unique: true,
+			type: DataTypes.DATE,
 		},
-		subject: {
+		title: {
 			type: DataTypes.STRING,
 		},
 		description: {

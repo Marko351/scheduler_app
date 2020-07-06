@@ -13,3 +13,7 @@
   margin-right: 2rem;
   margin-top: 1rem;
 }
+
+.custom-container {
+  height: 100vh;
+}

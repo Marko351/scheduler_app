@@ -49,8 +49,8 @@ class EventsController {
 				...req.body,
 				created_by: req.userData.userId,
 			};
-			await Event.create(data);
-			res.status(200).json({ msg: 'success' });
+			const createdEvent = await Event.create(data);
+			res.status(200).json(createdEvent);
 		} catch (err) {
 			next(err);
 		}

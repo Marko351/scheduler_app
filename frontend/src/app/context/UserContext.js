@@ -16,7 +16,7 @@ const { Provider } = userStore;
 const UserProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(userReducer, initialState);
 
-	// Users actions
+	// USER ACTIONS
 	const setCurrentUser = (decoded) => {
 		dispatch({
 			type: SET_USER_DATA,
@@ -31,51 +31,22 @@ const UserProvider = ({ children }) => {
 			payload: { user: {}, isAuthenticated: false },
 		});
 	};
-	const loginUser = async (setCurrentUser, data, history, notification) => {
-		try {
-			const response = await axios.post('/authentication/login', data);
-			const { token } = response.data;
-			localStorage.setItem('scheduler_token', token);
-			setAuthToken(token);
-			const decoded = jwt_decode(token);
-			setCurrentUser(decoded);
-			history.push('/scheduler');
-		} catch (err) {
-			console.log(this);
-			if (err.response.status === 400) {
-				notification({
-					notificationType: 1,
-					message: err.response.data.message,
-				});
-			} else {
-				notification({
-					notificationType: 1,
-					message: 'Server Error! Something went wrong',
-				});
-			}
-		}
+	const loginUser = async (setCurrentUser, data, history) => {
+		const response = await axios.post('/authentication/login', data);
+		const { token } = response.data;
+		localStorage.setItem('scheduler_token', token);
+		setAuthToken(token);
+		const decoded = jwt_decode(token);
+		setCurrentUser(decoded);
+		history.push('/scheduler');
 	};
 	const registerUser = async (data, history, notification) => {
-		try {
-			await axios.post('/users/register', data);
-			history.push('/login');
-			notification({
-				notificationType: 2,
-				message: 'User created successfuly, please login',
-			});
-		} catch (err) {
-			if (err.response.status === 400) {
-				notification({
-					notificationType: 1,
-					message: err.response.data.message,
-				});
-			} else {
-				notification({
-					notificationType: 1,
-					message: 'Server Error! Something went wrong',
-				});
-			}
-		}
+		await axios.post('/users/register', data);
+		history.push('/login');
+		notification({
+			notificationType: 2,
+			message: 'User created successfuly, please login',
+		});
 	};
 
 	return (
