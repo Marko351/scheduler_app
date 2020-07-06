@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import routesConfig from './config/routesConfig';
 import { dbConfig, models } from './config/databaseConfig';
 import headersConfig from './config/headersConfig';
+import docsConfig from './config/docsConfig';
 
 const port = 5555;
 const app = express();
@@ -18,6 +19,9 @@ headersConfig(app);
 
 // Routes configuration
 routesConfig(app);
+
+// Docs Config
+docsConfig(app);
 
 // Database Configuration
 dbConfig.sequelize.sync({}).then(() => {

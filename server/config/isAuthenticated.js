@@ -11,6 +11,6 @@ export default (req, res, next) => {
 		req.userData = decoded;
 		next();
 	} catch (error) {
-		errorResponse(res, 401, 'Authentication failed');
+		errorResponse(res, 401, 'You are not authorized. Please log in');
 	}
 };

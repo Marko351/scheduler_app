@@ -1,0 +1,340 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API Documentation for Scheduler App",
+    "version": "1.0.0",
+    "title": "Scheduler App Docs",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "markodjuric351@gmail.com"
+    },
+    "license": {}
+  },
+  "host": "localhost:5555",
+  "basePath": "/api/v1",
+  "schemes": ["http", "https"],
+  "tags": [{
+      "name": "Users",
+      "description": "Routes for Users",
+      "externalDocs": {
+        "description": "For more info, mail me: ",
+        "url": "markodjuric351@gmail.com"
+      }
+    },
+    {
+      "name": "Authentication",
+      "description": "Routes for Authentication of users",
+      "externalDocs": {
+        "description": "For more info, mail me: ",
+        "url": "markodjuric351@gmail.com"
+      }
+    },
+    {
+      "name": "Events",
+      "description": "Routes for Events",
+      "externalDocs": {
+        "description": "For more info, mail me: ",
+        "url": "markodjuric351@gmail.com"
+      }
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Register User",
+        "description": "",
+        "operationId": "registerUser",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Register user",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Users"
+          }
+        }],
+        "responses": {
+          "400": {
+            "description": "Validation of the fields failed."
+          },
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authentication/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Log in User to the system",
+        "description": "",
+        "operationId": "",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Log in user that should be in the system",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/User"
+          }
+        }],
+        "responses": {
+          "400": {
+            "description": "There is no user with that username / Invalid password"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/create": {
+      "post": {
+        "tags": ["Events"],
+        "summary": "Create New Event",
+        "description": "",
+        "operationId": "createEvent",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "Create event object",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Events"
+          }
+        }],
+        "responses": {
+          "401": {
+            "description": "You are not authorized. Please log in"
+          },
+          "400": {
+            "description": "Validation error! All fields have to be filled"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Events"
+              }
+            }
+          }
+        },
+        "security": [{
+          "Bearer": []
+        }]
+      }
+    },
+    "/events/all": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Get all Events",
+        "description": "",
+        "operationId": "getEvents",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [],
+        "responses": {
+          "401": {
+            "description": "You are not authorized. Please log in"
+          },
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Events"
+              }
+            }
+          }
+        },
+        "security": [{
+          "Bearer": []
+        }]
+      }
+    },
+    "/events//{:eventId}/": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Get particular Event",
+        "description": "",
+        "operationId": "getEvent",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [{
+          "name": ":eventId",
+          "in": "path",
+          "description": "The id of event to be returned",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "401": {
+            "description": "You are not authorized. Please log in"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Events"
+              }
+            }
+          }
+        },
+        "security": [{
+          "Bearer": []
+        }]
+      }
+    },
+    "/events/{:eventId}": {
+      "patch": {
+        "tags": ["Events"],
+        "summary": "Update particular Event",
+        "description": "",
+        "operationId": "updateEvent",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [{
+            "name": ":eventId",
+            "in": "path",
+            "description": "The id that needs to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated event object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Events"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "You are not authorized. Please log in"
+          },
+          "422": {
+            "description": "Validation of the fields failed."
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/Events"
+              }
+            }
+          }
+        },
+        "security": [{
+          "Bearer": []
+        }]
+      }
+    },
+    "/events/{:eventId}/": {
+      "delete": {
+        "tags": ["Events"],
+        "summary": "Delete particular Event",
+        "description": "",
+        "operationId": "deleteEvent",
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/json", "application/xml"],
+        "parameters": [{
+          "name": ":eventId",
+          "in": "path",
+          "description": "The id that needs to be deleted",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "401": {
+            "description": "You are not authorized. Please log in"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [{
+          "Bearer": []
+        }]
+      }
+    }
+  },
+
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "required": ["username", "password"],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Events": {
+      "type": "object",
+      "required": ["scheduled_at", "title", "description"],
+      "properties": {
+        "scheduled_at": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    }
+  }
+}
