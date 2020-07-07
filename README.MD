@@ -32,7 +32,7 @@ npm install
 ```
 
 ```sh
-npm client-install
+npm run client-install
 ```
 
 that will install all necessary packages. To run both frontend and backend execute command:
