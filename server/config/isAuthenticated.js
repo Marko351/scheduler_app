@@ -8,6 +8,7 @@ export default (req, res, next) => {
 			token,
 			process.env.JWT_SECRET || 'thisWillChange'
 		);
+		// Set user data to be visible trough the app
 		req.userData = decoded;
 		next();
 	} catch (error) {

@@ -25,7 +25,7 @@ Create `.env` file in the root project directory with following variables:
 
 ## Run App Locally
 
-In the root project directory run:
+In the root project directory run commands:
 
 ```sh
 npm install
